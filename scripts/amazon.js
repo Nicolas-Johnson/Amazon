@@ -1,5 +1,5 @@
 import { addToCart, hendleCartQuantity } from '../data/cart.js';
-import {formatCurrency} from './utils/money.js';
+import formatCurrency from './utils/money.js';
 import { products } from '../data/products.js';
 
 let productsHtml = '';
