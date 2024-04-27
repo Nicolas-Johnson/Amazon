@@ -1,4 +1,4 @@
-import { cart, deletItemFromCart } from '../data/cart.js';
+import { cart, deletItemFromCart, updateCartDeliveryDate } from '../data/cart.js';
 import { products } from '../data/products.js';
 import formatCurrency from './utils/money.js';
 import { deliveryOptions } from '../data/deliveryOptions.js';
@@ -68,7 +68,7 @@ function deliveryOptionsHTML(productId) {
         const finalDay = dayjs().add(deliveryDays, 'day').format('dddd, MMM D');
         html +=
         `
-            <div class="delivery-option">
+            <div class="delivery-option js-delivery-option" data-product-id="${productId}" data-delivery-date-id="${id}">
                 <input type="radio"
                 ${id === '1'? 'checked': ''}
                 class="delivery-option-input"
@@ -96,3 +96,10 @@ document.querySelectorAll('.js-delete-link')
             deletItemFromCart(itemId);
             document.querySelector(`.js-cart-item-container-${itemId}`).remove();
 })});
+
+document.querySelectorAll('.js-delivery-option').forEach((option) => {
+    const { productId, deliveryDateId} = option.dataset;
+    option.addEventListener('click', () => {
+        updateCartDeliveryDate(productId, deliveryDateId);
+    })
+});
